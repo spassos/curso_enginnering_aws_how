@@ -11,11 +11,14 @@ url = sys.argv[1]
 
 r = requests.get(url, verify=False)
 
+
 json_response = r.json()
 
-json_response['html'].replace('\r\n', '')
-
-r_text = json_response['html'].replace('\r\n', '')
+try:
+    r_text = json_response['html'].replace('\r\n', '')
+except KeyError as err:
+    print('Erro ao fazer a requisição!')
+    quit()
 
 #r_text
 
