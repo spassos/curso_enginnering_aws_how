@@ -11,24 +11,20 @@ url = sys.argv[1]
 
 r = requests.get(url, verify=False)
 
-r.text
+json_response = r.json()
 
-r_text = r.text.replace('\r\n','')
-r_text = r_text.replace('"\r\n}', '')
-r_text = r_text.replace('{\r\n "html": "', '')
-r_text
+json_response['html'].replace('\r\n', '')
+
+r_text = json_response['html'].replace('\r\n', '')
+
+#r_text
 
 df = pd.read_html(r_text)
 
-type(df)
-type(df[0])
+#type(df)
+#type(df[0])
 
 df = df[0].copy()
-
-new_columns = df.columns
-new_columns = list(i.replace('\\r\\n', '') for i in new_columns)
-new_columns
-df.columns = new_columns
 
 df = df.dropna()
 
