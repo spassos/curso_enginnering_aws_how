@@ -26,16 +26,18 @@ df = pd.DataFrame(
              'endereco',
              'area',
              'quartos',
+             'suites',
              'wc',
              'vagas',
              'valor',
              'condominio',
              'wlink']
 )
+
 # %%
 imovel_id = 0
 json_data = get_json(url, imovel_id, headerList, payload)
-# %%
+
 while len(json_data['search']['result']['listings']) > 0:
     qtd = len(json_data['search']['result']['listings'])
     print(f"Qtd imóveis: {qtd} | total {imovel_id}")
@@ -47,8 +49,10 @@ while len(json_data['search']['result']['listings']) > 0:
         try:
             endereco = json_data['search']['result']['listings'][i]['listing']['address']['street'] + ", " + json_data['search']['result']['listings'][i]['listing']['address']['streetNumber']
         except:
-            #endereco = json_data['search']['result']['listings'][i]['listing']['address']['street']
-            endereco = '-'
+            try:
+             endereco = json_data['search']['result']['listings'][i]['listing']['address']['street']
+            except:
+             endereco = '-'
         try:
             area = json_data['search']['result']['listings'][i]['listing']['totalAreas'][0]
         except:
@@ -87,18 +91,19 @@ while len(json_data['search']['result']['listings']) > 0:
             endereco,
             area,
             quartos,
+            suites,
             wc,
             vagas,
             valor,
             condominio,
             wlink
         ]
-        imovel_id = imovel_id + qtd
-        if imovel_id > 1000:
-            break
 
-        time.sleep(1) # para evitar o erro 429
-        json_data = get_json(url, imovel_id, headerList, payload)
+    imovel_id = imovel_id + qtd
+    if imovel_id > 10000:
+        break
+    time.sleep(1) # para evitar o erro 429
+    json_data = get_json(url, imovel_id, headerList, payload)
 
 # %%
 df
