@@ -7,3 +7,5 @@ bs4
 SQLAlchemy
 psycopg2
 psycopg2-binary
+schedule
+ratelimit

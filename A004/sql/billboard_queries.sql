@@ -45,6 +45,18 @@ where t1.artist in ('Chuck Berry', 'Frankie Vaughan')
 group by t1.artist, t1.song
 order by "#song" desc;
 
+
+-- Checkpoint 1 
+SELECT t1.artist
+	  ,t1.song
+	  ,count(*) as qtd_musica
+FROM PUBLIC."Billboard" AS t1
+where t1.artist = 'Chuck Berry'
+group by t1.artist, t1.song
+order by qtd_musica desc;
+
+
+
 -- SELECT COM WHERE E GROUP BY
 select distinct  t1.song
 	,t1.artist

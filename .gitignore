@@ -1,2 +1,4 @@
 *.csv
 /A004/db/*
+day-summary/
+DaySummaryIngestor.checkpoint
