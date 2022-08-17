@@ -2,3 +2,5 @@
 /A004/db/*
 day-summary/
 DaySummaryIngestor.checkpoint
+/A006/.venv/*
+.idea
