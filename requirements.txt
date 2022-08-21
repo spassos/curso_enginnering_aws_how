@@ -10,3 +10,5 @@ psycopg2-binary
 schedule
 ratelimit
 selenium
+html5lib
+webdriver-manager
