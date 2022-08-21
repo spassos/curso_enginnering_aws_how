@@ -4,3 +4,4 @@ day-summary/
 DaySummaryIngestor.checkpoint
 /A006/.venv/*
 .idea
+*.png
