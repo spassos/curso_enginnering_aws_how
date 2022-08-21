@@ -1,5 +1,7 @@
 # %%
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 import sys
@@ -7,7 +9,7 @@ import time
 # %%
 cep = sys.argv[1]
 if cep:
-    driver = webdriver.Chrome('./src/chromedriver')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     time.sleep(5)
     # %%
     #driver.get('https://howedu.com.br/')
