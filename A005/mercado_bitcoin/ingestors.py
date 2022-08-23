@@ -2,7 +2,7 @@ import datetime
 from abc import ABC, abstractmethod
 from typing import List
 
-from A005.apis import DaySummaryApi
+from A005.mercado_bitcoin.apis import DaySummaryApi
 
 
 class DataIngestor(ABC):
@@ -11,19 +11,19 @@ class DataIngestor(ABC):
         self.default_start_date = default_start_date
         self.coins = coins
         self.writer = writer
-        self.checkpoint = self.load_checkpoint()
+        self._checkpoint = self._load_checkpoint()
 
     @property
-    def checkpoint_filename(self) -> str:
+    def _checkpoint_filename(self) -> str:
         return f"{self.__class__.__name__}.checkpoint"
 
-    def write_checkpoint(self):
-        with open(self.checkpoint_filename, 'w') as f:
-            f.write(f"{self.checkpoint}")
+    def _write_checkpoint(self):
+        with open(self._checkpoint_filename, 'w') as f:
+            f.write(f"{self._checkpoint}")
 
-    def load_checkpoint(self) -> datetime.date:
+    def _load_checkpoint(self) -> datetime.date:
         try:
-            with open(self.checkpoint_filename, 'r') as f:
+            with open(self._checkpoint_filename, 'r') as f:
                 return datetime.datetime.strptime(f.read(), '%Y-%m-%d').date()
         except FileNotFoundError:
             return self.default_start_date
@@ -34,9 +34,9 @@ class DataIngestor(ABC):
         else:
             return self.checkpoint
 
-    def update_checkpoint(self, value):
+    def _update_checkpoint(self, value):
         self.checkpoint = value
-        self.write_checkpoint()
+        self._write_checkpoint()
 
     @abstractmethod
     def ingest(self) -> None:
@@ -52,4 +52,4 @@ class DaySummaryIngestor(DataIngestor):
                 api = DaySummaryApi(coin=coin)
                 data = api.get_data(date=date)
                 self.writer(coin=coin, api=api.type).write(data)
-            self.update_checkpoint(date + datetime.timedelta(days=1))
+            self._update_checkpoint(date + datetime.timedelta(days=1))

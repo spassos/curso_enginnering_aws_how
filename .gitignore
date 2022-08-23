@@ -5,3 +5,5 @@ DaySummaryIngestor.checkpoint
 /A006/.venv/*
 .idea
 *.png
+/A005/.coverage
+/A007/jenkins_home/
