@@ -5,7 +5,7 @@ from fake_web_events import Simulation
 client = boto3.client('firehose')
 
 def put_record(event: dict):
-    data = json.dumps(event)
+    data = json.dumps(event) + "\n"
     response = client.put_record(
         DeliveryStreamName='demo_ing_dados_bc05',
         Record={"Data": data}
@@ -14,7 +14,7 @@ def put_record(event: dict):
     return response
 
 simulation = Simulation(user_pool_size=100, sessions_per_day=100000)
-events = simulation.run(duration_seconds=3600)
+events = simulation.run(duration_seconds=600)
 
 for event in events:
     put_record(event)
